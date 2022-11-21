@@ -1,29 +1,27 @@
-use std::fs::File;
+use std::{fs::File, io::Write};
 
-struct Mkfl {
-    cmd: String,
+struct Dust {
     file_name: String,
-    content: Option<String>,
+    content: String,
 }
 
-fn construct_param_from_cli() -> Option<Mkfl> {
+fn construct_param_from_cli() -> Option<Dust> {
     let cmd = std::env::args().nth(1).expect("Argument 1 is missing (Command)");
 
-    match cmd == String::from("mkfl") { //something wrong here
+    match cmd == String::from("dust") { //something wrong here
             true => {
-                let out = Mkfl {
-                    cmd: String::from("mkfl"),
+                let out = Dust {
                     file_name: std::env::args().nth(2).expect("Argument 2 is missing (File Name)"),
-                    content: std::env::args().nth(3)
+                    content: std::env::args().nth(3).unwrap_or("".to_string())
                 };
 
-                let _file = File::create(&out.file_name).expect("there was an error creating the file");
-                
-                
+                let mut file = File::create(&out.file_name).expect("there was an error creating the file");
 
-                print!("{}", out.cmd);
-                print!("{}", out.file_name);
-                print!("{}", out.content.as_ref().expect("[No Contents]"));
+                let clone = out.content.clone();
+
+                let bytes = clone.into_bytes();
+               
+                file.write_all(&bytes).expect("Unable to write buffer to file.");
 
                 return Some(out);
         },
