@@ -1,31 +1,35 @@
-use std::{fs::File, io::Write};
+use utils::make_file;
+pub mod utils;
 
 struct Dust {
     file_name: String,
     content: String,
 }
+//template: https://github.com/Axzurey/electron-react-typescript-webpack-template
 
-fn construct_param_from_cli() -> Option<Dust> {
+//MODIFY: package.json, 
+struct CreateElectronApp {
+    name: String,
+    author: String,
+    desc: String
+}
+
+fn construct_param_from_cli() {
     let cmd = std::env::args().nth(1).expect("Argument 1 is missing (Command)");
 
-    match cmd == String::from("dust") { //something wrong here
-            true => {
-                let out = Dust {
-                    file_name: std::env::args().nth(2).expect("Argument 2 is missing (File Name)"),
-                    content: std::env::args().nth(3).unwrap_or("".to_string())
-                };
+    if cmd == String::from("dust") {
+        let out = Dust {
+            file_name: std::env::args().nth(2).expect("Argument 2 is missing (File Name)"),
+            content: std::env::args().nth(3).unwrap_or("".to_string())
+        };
 
-                let mut file = File::create(&out.file_name).expect("there was an error creating the file");
-
-                let clone = out.content.clone();
-
-                let bytes = clone.into_bytes();
-               
-                file.write_all(&bytes).expect("Unable to write buffer to file.");
-
-                return Some(out);
-        },
-        _ => panic!("{cmd} is not a valid command!")
+        make_file(&out.file_name, &out.content).expect("Error creating file");
+    }
+    else if cmd == String::from("create-electron-app") {
+        todo!()
+    }
+    else {
+        panic!("{}", format!("{cmd} is not a valid command!"))
     }
 }
 
