@@ -1,6 +1,6 @@
 use std::io::{self, BufRead, Write};
 
-use utils::make_file;
+use utils::{make_file, clone_repo};
 pub mod utils;
 
 struct Dust {
@@ -38,6 +38,10 @@ fn create_electron_app() {
 
         if pointer == table.len() {break}
     }
+
+    let _res = clone_repo(&String::from("https://github.com/Axzurey/electron-react-typescript-webpack-template"), &results[0]);
+
+
 }
 
 fn dust_file() {
