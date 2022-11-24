@@ -17,25 +17,20 @@ struct CreateElectronApp {
 }
 
 fn create_electron_app() {
-    let mut line = String::new();
     let stdin = io::stdin();
 
     let table = ["name", "author", "desc"];
     let queries = ["Set an application name", "Set the author", "Set a description"];
-    let mut results: [String; 3] = [String::from(""), String::from(""), String::from("")];
+    let mut results: [String; 3] = ["".to_string(), "".to_string(), "".to_string()];
     let mut pointer = 0;
 
     loop {
         print!("{}\t", queries[pointer]);
         io::stdout().flush().expect("An unexpected error occured!");
-        stdin.lock().read_line(&mut line).expect("Unable to read line");
-
-        let clone = line.clone();
-
-        results[pointer] = clone;
+        stdin.lock().read_line(&mut results[pointer]).expect("Unable to read line");
 
         pointer += 1;
-
+        AZUSA!Aris B/A
         if pointer == table.len() {break}
     }
 
