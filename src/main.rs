@@ -29,7 +29,6 @@ fn create_electron_app(additional: Additional) {
         stdin.lock().read_line(&mut results[pointer]).expect("Unable to read line");
 
         pointer += 1;
-        AZUSA!Aris B/A
         if pointer == table.len() {break}
     }
 
