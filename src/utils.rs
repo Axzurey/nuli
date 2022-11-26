@@ -1,6 +1,6 @@
-use std::{fs::File, io::Write, path::{Path, PathBuf}};
+use std::{fs::File, io::{Write, Seek, Read}};
 use git2::Repository;
-
+use tar::Archive;
 
 /**
  * attempts to create a file and write to it.
@@ -13,7 +13,14 @@ pub fn make_file(path: &String, content: &String) -> Result<(), std::io::Error> 
     return file.write_all(&bytes);
 }
 
+pub fn unwrap_buffer<C: Seek + Read>(buffer: C, out_dir: &String) {
+    let mut archive = Archive::new(buffer);
+
+    archive.unpack(out_dir).unwrap();
+}
+
 pub fn clone_repo(url: &String, path: &String) -> git2::Repository {
+    
     let res = path.as_str().trim();
     std::fs::create_dir(res).expect("unable to create path");
     let repo = match Repository::clone(&url, res) {
