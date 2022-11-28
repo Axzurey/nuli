@@ -8,9 +8,9 @@ pub mod utils;
 fn create_electron_app(additional: Additional) {
     let stdin = io::stdin();
 
-    let table = ["name", "author", "desc"];
-    let queries = ["Application Name", "Author", "Description"];
-    let mut results: [String; 3] = ["".to_string(), "".to_string(), "".to_string()];
+    let table = ["name"];
+    let queries = ["Application Name"];
+    let mut results: [String; 1] = ["".to_string()];
     let mut pointer = 0;
 
     loop {
